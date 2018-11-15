@@ -32,7 +32,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
-		<!-- jcaptcha-all ÑéÖ¤Âë -->
+		<!-- jcaptcha-all éªŒè¯ç  -->
 		<dependency>
     		<groupId>com.octo.captcha</groupId>
     		<artifactId>jcaptcha-all</artifactId>
