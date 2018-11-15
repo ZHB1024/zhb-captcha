@@ -5,12 +5,6 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd"
     default-lazy-init="true">
 
-    <bean id="captchaService" class="com.octo.captcha.service.multitype.GenericManageableCaptchaService">
-        <constructor-arg index="0" ref="imageEngine" />
-        <constructor-arg type="int" index="1" value="180" />
-        <constructor-arg type="int" index="2" value="100000" />
-    </bean>
-    
     <bean id="fontGenRandom" class="com.octo.captcha.component.image.fontgenerator.RandomFontGenerator">
         <!--最小字体-->
         <constructor-arg index="0">
@@ -147,7 +141,14 @@
         </constructor-arg>
     </bean>
     
+    <bean id="imageCaptchaService" class="com.octo.captcha.service.multitype.GenericManageableCaptchaService">
+        <constructor-arg index="0" ref="imageEngine" />
+        <constructor-arg type="int" index="1" value="180" />
+        <constructor-arg type="int" index="2" value="100000" />
+    </bean>
+    
 	<bean id="captchaClient" class="com.zhb.forever.captcha.client.impl.CaptchaClientImpl">
+		<property name="imageCaptchaService" ref="imageCaptchaService" />
     </bean>
     
 </beans>
