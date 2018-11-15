@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://activemq.apache.org/schema/core 
+	 http://activemq.apache.org/schema/core/activemq-core.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context.xsd
+	 http://www.springframework.org/schema/jms
+     http://www.springframework.org/schema/jms/spring-jms.xsd
+	 http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<amq:connectionFactory id="amqConnectionFactory"
+		brokerURL="tcp://localhost:61616" userName="admin" password="admin" />
+
+	<!-- 配置JMS连接工厂 -->
+	<bean id="jmsConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<constructor-arg ref="amqConnectionFactory" />
+		<property name="sessionCacheSize" value="100" />
+	</bean>
+
+	<!-- 定义默认消息队列（Queue） -->
+	<bean id="activeMQDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 设置消息队列的名字 -->
+		<constructor-arg>
+			<value>zhb_vue</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<!-- <property name="defaultDestination" ref="zhbQueueDestination" /> -->
+		<property name="receiveTimeout" value="10000" />
+		<!-- true是topic，false是queue，默认是false，此处显示写出false -->
+		<property name="pubSubDomain" value="false" />
+	</bean>
+	
+	<!-- 配置JMS模板（Topic），Spring提供的JMS工具类，它发送、接收消息。 -->
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="receiveTimeout" value="10000" />
+		<!-- true是topic，false是queue，默认是false，此处显示写出false -->
+		<property name="pubSubDomain" value="true" />
+	</bean>
+	
+	
+	<bean id="activeMQClientImpl" class="com.zhb.forever.mq.activemq.client.impl.ActiveMQClientImpl">
+		<property name="jmsQueueTemplate" ref="jmsQueueTemplate" />
+		<property name="jmsTopicTemplate" ref="jmsTopicTemplate" />
+	</bean>
+
+	<!-- 显示注入消息监听容器（Queue），配置连接工厂，监听的目标是zhbQueueDestination，监听器是上面定义的监听器 -->
+	<!-- <bean id="queueListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="zhbQueueDestination" />
+		<property name="messageListener" ref="queueMessageListener" />
+	</bean> -->
+	
+	 <!-- 配置消息队列监听者（Queue） -->
+	<!-- <bean id="queueMessageListener1" class="com.forever.zhb.jms.activemq.listener.queue.QueueMessageListener1" />
+	<bean id="queueMessageListener2" class="com.forever.zhb.jms.activemq.listener.queue.QueueMessageListener2" />
+	 -->
+    <!-- 定义Queue监听器 -->
+    <!-- <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="zhb_queue_destination" ref="queueMessageListener1"/>
+        <jms:listener destination="zhb_queue_destination" ref="queueMessageListener2"/>
+    </jms:listener-container> -->
+     
+     
+     <!-- 配置消息队列监听者（Topic） -->  <!-- 定义Topic监听器 -->
+     <!-- <bean id="topicMessageListener1" class="com.forever.zhb.jms.activemq.listener.topic.TopicMessageListener1" />
+     <bean id="topicMessageListener2" class="com.forever.zhb.jms.activemq.listener.topic.TopicMessageListener2" />
+     <bean id="topicMessageListener3" class="com.forever.zhb.jms.activemq.listener.topic.TopicMessageListener3" />
+     
+    <jms:listener-container destination-type="topic" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="zhb_topic_destination" ref="topicMessageListener1"/>
+        <jms:listener destination="zhb_topic_destination" ref="topicMessageListener2"/>
+        <jms:listener destination="hel_topic_destination" ref="topicMessageListener3"/>
+    </jms:listener-container> -->
+
+
+</beans>
