@@ -5,6 +5,7 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd"
     default-lazy-init="true">
 
+	<!-- 文字转换图片 -->
     <bean id="fontGenRandom" class="com.octo.captcha.component.image.fontgenerator.RandomFontGenerator">
         <!--最小字体-->
         <constructor-arg index="0">
@@ -52,11 +53,11 @@
     <bean id="backGenUni" class="com.octo.captcha.component.image.backgroundgenerator.UniColorBackgroundGenerator">
         <!--背景宽度-->
         <constructor-arg index="0">
-            <value>80</value>
+            <value>100</value>
         </constructor-arg>
         <!--背景高度-->
         <constructor-arg index="1">
-            <value>32</value>
+            <value>50</value>
         </constructor-arg>
     </bean>
 
@@ -102,7 +103,7 @@
         </constructor-arg>
     </bean>
 
-
+	<!-- 文字产生器 -->
     <bean id="wordgen" class="com.octo.captcha.component.word.wordgenerator.RandomWordGenerator">
         <!--可选字符-->
         <constructor-arg>
@@ -112,6 +113,7 @@
         </constructor-arg>
     </bean>
 
+	<!-- 图片生成器 -->
     <bean id="wordtoimage" class="com.octo.captcha.component.image.wordtoimage.ComposedWordToImage">
         <constructor-arg index="0">
             <ref bean="fontGenRandom" />
@@ -124,6 +126,7 @@
         </constructor-arg>
     </bean>
 
+	<!-- 验证码工厂 -->
     <bean id="captchaFactory" class="com.octo.captcha.image.gimpy.GimpyFactory">
         <constructor-arg>
             <ref bean="wordgen" />
@@ -133,6 +136,7 @@
         </constructor-arg>
     </bean>
     
+    <!-- 图片引擎 -->
     <bean id="imageEngine" class="com.octo.captcha.engine.GenericCaptchaEngine">
         <constructor-arg index="0">
             <list>

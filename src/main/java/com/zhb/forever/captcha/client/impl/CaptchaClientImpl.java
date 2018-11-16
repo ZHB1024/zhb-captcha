@@ -42,7 +42,7 @@ public class CaptchaClientImpl implements CaptchaClient {
     public void generateCaptchaImage(String tokenId, HttpServletRequest request, HttpServletResponse response) {
         try {
             ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
-            BufferedImage challenge = imageCaptchaService.getImageChallengeForID(tokenId, request.getLocale());
+            BufferedImage challenge = imageCaptchaService.getImageChallengeForID(tokenId);
 
             response.setHeader("Cache-Control", "no-store");
             response.setHeader("Pragma", "no-cache");
