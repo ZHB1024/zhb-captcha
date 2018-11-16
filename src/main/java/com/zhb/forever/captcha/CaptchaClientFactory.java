@@ -1,6 +1,7 @@
-package com.zhb.forever.captcha.client;
+package com.zhb.forever.captcha;
 
 import com.zhb.forever.captcha.Constants;
+import com.zhb.forever.captcha.jcaptcha.client.JCaptchaClient;
 import com.zhb.forever.framework.spring.bean.locator.SpringBeanLocator;
 
 /**
@@ -10,11 +11,11 @@ import com.zhb.forever.framework.spring.bean.locator.SpringBeanLocator;
 
 public class CaptchaClientFactory {
 
-    public static CaptchaClient getCaptchaClientBean() {
+    public static JCaptchaClient getJCaptchaClientBean() {
         Object bean = SpringBeanLocator.getInstance(
-                Constants.CAPTCHA_CLIENT_CONF).getBean(
-                        Constants.CAPTCHA_CLIENT);
-        return (CaptchaClient) bean;
+                Constants.JCAPTCHA_CLIENT_CONF).getBean(
+                        Constants.JCAPTCHA_CLIENT);
+        return (JCaptchaClient) bean;
     }
 
 }

@@ -2,7 +2,7 @@ package com.zhb.forever.captcha;
 
 public class Constants {
 
-    public static String CAPTCHA_CLIENT_CONF = "captcha_client.xml";
-    public static String CAPTCHA_CLIENT = "captchaClient";
+    public static String JCAPTCHA_CLIENT_CONF = "jcaptcha_client.xml";
+    public static String JCAPTCHA_CLIENT = "jcaptchaClient";
     
 }
