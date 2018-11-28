@@ -30,6 +30,7 @@
 			<groupId>com.zhb.forever</groupId>
 			<artifactId>zhb-framework</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<optional>true</optional>
 		</dependency>
 		
 		<!-- jcaptcha-all 验证码 -->
